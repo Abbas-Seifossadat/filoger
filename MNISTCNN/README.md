@@ -1,9 +1,3 @@
-It looks like there was an issue while attempting to read the notebook file. Let me try that again.
-
-It seems there are issues with reading the notebook file directly. To proceed, I'll outline a general template for your `README.md` based on common practices in deep learning projects using Fashion MNIST. You can then fill in the specific details from your notebook.
-
----
-
 # Fashion MNIST Classification
 
 ## Objective
@@ -25,6 +19,8 @@ The Fashion MNIST dataset consists of 70,000 grayscale images in 10 categories, 
 9. Bag
 10. Ankle boot
 
+![MNIST Dataset](MNIST.png)
+
 ## Preprocessing Phase
 
 To prepare the data for training, the following preprocessing steps were taken:
@@ -33,19 +29,27 @@ To prepare the data for training, the following preprocessing steps were taken:
 2. Reshaping: The images were reshaped to include the channel dimension (28, 28, 1).
 3. One-hot Encoding: The labels were converted to one-hot encoded vectors.
 
+
 ## Model Architecture
 
 The Convolutional Neural Network (CNN) used in this project has the following architecture:
 
 1. **Input Layer**: 28x28x1 grayscale images.
-2. **First Convolutional Layer**: 32 filters, kernel size 3x3, ReLU activation.
-3. **Max Pooling Layer**: Pool size 2x2.
-4. **Second Convolutional Layer**: 64 filters, kernel size 3x3, ReLU activation.
-5. **Max Pooling Layer**: Pool size 2x2.
-6. **Flatten Layer**: Converts 2D feature maps to 1D feature vectors.
-7. **Fully Connected Layer**: 128 neurons, ReLU activation.
+2. **Zero Padding Layer**: Adds zero padding to the input, resulting in 30x30x1 images.
+3. **First Convolutional Layer**: 32 filters, kernel size 3x3, ReLU activation.
+4. **Dropout Layer**: 0.5 dropout rate to prevent overfitting.
+5. **Max Pooling Layer**: Pool size 2x2, resulting in 14x14x32 feature maps.
+6. **Zero Padding Layer**: Adds zero padding to the feature maps, resulting in 16x16x32 feature maps.
+7. **Second Convolutional Layer**: 64 filters, kernel size 3x3, ReLU activation.
 8. **Dropout Layer**: 0.5 dropout rate to prevent overfitting.
-9. **Output Layer**: 10 neurons (one for each category), Softmax activation.
+9. **Max Pooling Layer**: Pool size 2x2, resulting in 7x7x64 feature maps.
+10. **Flatten Layer**: Converts 2D feature maps to 1D feature vectors.
+11. **Fully Connected Layer**: 128 neurons, ReLU activation.
+12. **Dropout Layer**: 0.5 dropout rate to prevent overfitting.
+13. **Output Layer**: 10 neurons (one for each category), Softmax activation.
+
+![Architecture](Architecture.png)
+
 
 ## Training Phase
 
@@ -53,9 +57,9 @@ The model was trained using the following configuration:
 
 - **Optimizer**: Adam optimizer.
 - **Loss Function**: Categorical Crossentropy.
-- **Number of Epochs**: 20.
-- **Batch Size**: 32.
-- **Data Augmentation**: Techniques such as rotation, width and height shift, and horizontal flip were applied to increase the diversity of the training data.
+- **Number of Epochs**: 5.
+- **Batch Size**: 300.
+
 
 ## Evaluation Phase
 
@@ -63,22 +67,26 @@ The model's performance was evaluated using the following metrics:
 
 - **Accuracy**: The proportion of correctly predicted labels.
 - **Loss**: The categorical crossentropy loss on the test set.
-- **Confusion Matrix**: To visualize the performance across different categories.
 
 Results:
-- **Training Accuracy**: [Insert training accuracy here]
-- **Validation Accuracy**: [Insert validation accuracy here]
-- **Test Accuracy**: [Insert test accuracy here]
+- **Training Accuracy**: [88.7]
+- **Test Accuracy**: [89.36]
 
 ## Feature Maps Analysis
 
 Feature maps were analyzed at various stages of the network:
 
+![Feature_Maps_1](Feature_Maps_1.png)
+
 1. **First Layer**: These feature maps capture basic edges and textures.
 2. **Intermediate Layer**: These feature maps start to capture more complex patterns and parts of the clothing items.
 3. **Last Layer**: These feature maps are highly abstract and represent the learned features that contribute to the final classification decision.
 
+![Feature_Maps_2](Feature_Maps_2.png)
+
 The differences among these feature maps highlight how the CNN progressively learns and abstracts features from raw pixel values to high-level concepts.
+
+In neural networks, the final layers activate only those features that are important for class recognition. As seen from the output of the final layers, only a few features or pixels in the abstract space at the end of the network are activated. This indicates that the outputs of the final layers contain less information from the original input image pixels, but instead, they retain precise information about the key pixels that determine the output class. Therefore, it can be said that the images resulting from the initial layers are closer to the original input image, while the outputs of the final layers, by highlighting specific features in an abstract and compressed space, determine the type of output class.
 
 ## Additional Insights
 
@@ -94,12 +102,4 @@ Future improvements could include:
 - Using transfer learning with pre-trained models on larger datasets.
 - Deploying the model as a web service for real-time classification.
 
-### Tips for Users
 
-- Ensure proper preprocessing of the dataset for optimal results.
-- Experiment with different data augmentation techniques to improve model robustness.
-- Regularly monitor and visualize feature maps to understand what the model is learning.
-
----
-
-You can fill in the specific results and details from your notebook into this template. Let me know if you need further assistance or specific details from the notebook!
